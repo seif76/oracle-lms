@@ -2,11 +2,13 @@
 const express = require('express')
 const next = require('next')
 const cors =  require("cors");
+require('dotenv').config();
 
 //const mainRouter = require("./src/pages/api/Routes/main")
 //const lessonsRouter = require("./src/pages/api/lessons/getAllLessons")
 //const authenticate = require("./src/pages/api/authinticate/authinticate")
 //const studentsRouter = require("./src/pages/api/students/getStudent")
+const studentsRouter = require("./src/controllers/studentController");
 
 const seedData = require('./src/lib/seeder');
 
@@ -17,10 +19,6 @@ const handle = app.getRequestHandler()
 // database stuff
 
 const mongoose = require("mongoose");
-
-//mongoose.connect('mongodb://127.0.0.1:27017/edusphere', {useNewUrlParser: true, });
-// mongoose.connect('mongodb+srv://oraclelms56:nqEkz4QDJGm5kiVh@cluster0.v0xpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
-
 // const db = mongoose.connection;
 // db.on("error", console.error.bind(console, "connection error: "));
 // db.once("open", function () {
@@ -38,7 +36,10 @@ const mongoose = require("mongoose");
 
 // });
 
-const mongoURI = 'mongodb+srv://oraclelms56:nqEkz4QDJGm5kiVh@cluster0.v0xpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0&ssl=true';
+//const mongoURI = 'mongodb+srv://oraclelms56:nqEkz4QDJGm5kiVh@cluster0.v0xpf.mongodb.net/Oracle-lms?retryWrites=true&w=majority&appName=Cluster0';
+
+const mongoURI = process.env.MONGODB_URI ;
+
 
 // Connect to MongoDB
 mongoose.connect(mongoURI, {
@@ -51,7 +52,7 @@ mongoose.connect(mongoURI, {
         console.log("Connected successfully to MongoDB");
 
         // Run seeder here after successful connection
-        return seedData();
+        // return seedData();
     })
     .then(() => {
         console.log('Seeding completed successfully.');
@@ -82,6 +83,7 @@ app.prepare()
   //server.use("/api" ,authenticate);
   //server.use("/api" ,lessonsRouter);
   //server.use("/api" ,studentsRouter);
+  server.use("/api" ,studentsRouter);
 
   server.get('*', (req, res) => {
     return handle(req, res)

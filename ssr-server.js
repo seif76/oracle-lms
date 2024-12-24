@@ -52,7 +52,7 @@ mongoose.connect(mongoURI, {
         console.log("Connected successfully to MongoDB");
 
         // Run seeder here after successful connection
-        // return seedData();
+         return seedData();
     })
     .then(() => {
         console.log('Seeding completed successfully.');

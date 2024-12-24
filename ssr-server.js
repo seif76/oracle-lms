@@ -1,3 +1,4 @@
+
 const express = require('express')
 const next = require('next')
 const cors =  require("cors");
@@ -7,6 +8,7 @@ const cors =  require("cors");
 //const authenticate = require("./src/pages/api/authinticate/authinticate")
 //const studentsRouter = require("./src/pages/api/students/getStudent")
 
+const seedData = require('./src/lib/seeder');
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -17,41 +19,57 @@ const handle = app.getRequestHandler()
 const mongoose = require("mongoose");
 
 //mongoose.connect('mongodb://127.0.0.1:27017/edusphere', {useNewUrlParser: true, });
-mongoose.connect('mongodb+srv://oraclelms56:nqEkz4QDJGm5kiVh@cluster0.v0xpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+// mongoose.connect('mongodb+srv://oraclelms56:nqEkz4QDJGm5kiVh@cluster0.v0xpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
 
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error: "));
-db.once("open", function () {
-  console.log("Connected successfully");
-});
+// const db = mongoose.connection;
+// db.on("error", console.error.bind(console, "connection error: "));
+// db.once("open", function () {
+  
+//   console.log("Connected successfully");
 
-// const userSchema = new mongoose.Schema ({
-//   _id : Number,
-//   username:String ,
-//   password:String,
-//   grade: Number 
+  
+//   try {
+//     // Run seeder here after the DB connection is established
+//      seedData();
+//     console.log('Seeding completed successfully.');
+//   } catch (error) {
+//     console.error('Error running seeder:', error);
+//   }
 
-// },{
-//   versionKey: false // You should be aware of the outcome after set to false
-// })
-
-// const User = mongoose.model("student", userSchema);
-
-// const user = new User ({
-//   id:17,
-//   username:"gamed",
-//   password:"p@ssword",
-//   grade : 12
 // });
 
-//  user.save(); 
-//const user = new User ({
- // id:5,
-//  name:"seconf seif",
-//  grade : 11
-//});
+const mongoURI = 'mongodb+srv://oraclelms56:nqEkz4QDJGm5kiVh@cluster0.v0xpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0&ssl=true';
 
-//user.save(); 
+// Connect to MongoDB
+mongoose.connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    connectTimeoutMS: 30000,
+    socketTimeoutMS: 30000,
+})
+    .then(() => {
+        console.log("Connected successfully to MongoDB");
+
+        // Run seeder here after successful connection
+        return seedData();
+    })
+    .then(() => {
+        console.log('Seeding completed successfully.');
+    })
+    .catch(err => {
+        console.error('Error during connection or seeding:', err);
+    })
+    .finally(() => {
+        // Close the connection after seeding or if there's an error
+        mongoose.connection.close();
+    });
+
+const db = mongoose.connection;
+
+// Extra error handling for unexpected connection issues
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+
+
 const fs = require("fs");
 
 

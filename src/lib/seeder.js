@@ -8,8 +8,14 @@ const Video = require('./video');
 const Enrollment = require('./enrollment');
 const AccessCode = require('./accessCode');
 
+//const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://oraclelms56:nqEkz4QDJGm5kiVh@cluster0.v0xpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+//const mongoURI = 'mongodb+srv://oraclelms56:nqEkz4QDJGm5kiVh@cluster0.v0xpf.mongodb.net/Oracle-lms?retryWrites=true&w=majority&appName=Cluster0' ;
+
+const mongoURI = process.env.MONGODB_URI ;
+
+
 // MongoDB Connection
- mongoose.connect('mongodb+srv://oraclelms56:nqEkz4QDJGm5kiVh@cluster0.v0xpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0&ssl=true', {
+ mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     connectTimeoutMS: 30000,
@@ -57,7 +63,7 @@ const seedData = async () => {
 
         // Seed Admins
         const admins = [
-            { name: 'Admin One', email: 'admin1@example.com', password: 'admin123', phoneNumber: '2233445566', permissions: ['all'] },
+            { name: 'Admin One', email: 'admin111@example.com', password: 'admin123', phoneNumber: '2233445566', permissions: ['all'] },
             { name: 'Admin Two', email: 'admin2@example.com', password: 'admin456', phoneNumber: '6677889900', permissions: ['limited'] },
         ];
         await Admin.insertMany(admins);

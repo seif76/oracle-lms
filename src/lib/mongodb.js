@@ -13,7 +13,7 @@ let isConnected = false;
   }
   try {
     await mongoose.connect(MONGODB_URI, {
-      dbName: "test",
+      dbName: "Oracle-lms",
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

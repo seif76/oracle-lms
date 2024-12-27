@@ -9,6 +9,7 @@ require('dotenv').config();
 //const authenticate = require("./src/pages/api/authinticate/authinticate")
 //const studentsRouter = require("./src/pages/api/students/getStudent")
 const studentsRouter = require("./src/controllers/studentController");
+const authRouter = require("./src/controllers/auth/authController");
 const teacherRouter = require("./src/controllers/teacherController")
 const seedData = require('./src/lib/seeder');
 
@@ -79,11 +80,17 @@ app.prepare()
   const server = express()
   server.use(cors());
 
+  server.use(express.json());
+  server.use(express.urlencoded({ extended: true }));
+
   //server.use("/api" ,mainRouter);
   //server.use("/api" ,authenticate);
   //server.use("/api" ,lessonsRouter);
   //server.use("/api" ,studentsRouter);
   server.use("/api" ,studentsRouter);
+  server.use("/api/auth" ,authRouter);
+  
+  
   server.use("/api", teacherRouter)
   server.get('*', (req, res) => {
     return handle(req, res)

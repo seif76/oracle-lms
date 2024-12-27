@@ -9,7 +9,7 @@ require('dotenv').config();
 //const authenticate = require("./src/pages/api/authinticate/authinticate")
 //const studentsRouter = require("./src/pages/api/students/getStudent")
 const studentsRouter = require("./src/controllers/studentController");
-
+const teacherRouter = require("./src/controllers/teacherController")
 const seedData = require('./src/lib/seeder');
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -52,7 +52,7 @@ mongoose.connect(mongoURI, {
         console.log("Connected successfully to MongoDB");
 
         // Run seeder here after successful connection
-        // return seedData();
+        return seedData();
     })
     .then(() => {
         console.log('Seeding completed successfully.');
@@ -84,7 +84,7 @@ app.prepare()
   //server.use("/api" ,lessonsRouter);
   //server.use("/api" ,studentsRouter);
   server.use("/api" ,studentsRouter);
-
+  server.use("/api", teacherRouter)
   server.get('*', (req, res) => {
     return handle(req, res)
   })

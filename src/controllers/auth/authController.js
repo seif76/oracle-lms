@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const StudentModel = require("../../lib/student");
 const TeacherModel = require("../../lib/teacher");
 const AdminModel = require("../../lib/admin");
-const { connectToDataBase } = require("../../lib/mongodb");
+const connectToDataBase = require("../../lib/mongodb");
 
 require('dotenv').config();
 
@@ -22,7 +22,7 @@ const findUserByEmail = async (email) => {
 
 // Register Route
 router.post("/register", async (req, res) => {
-  const { name, email, password, role, phone, subject } = req.body;
+  const { name, email, password, role, phoneNumber, parentContact, subjects, permissions } = req.body;
 
   try {
     await connectToDataBase();
@@ -37,11 +37,11 @@ router.post("/register", async (req, res) => {
     // Create user based on role
     let newUser;
     if (role === "student") {
-      newUser = new StudentModel({ name, email, password: hashedPassword, phone });
+      newUser = new StudentModel({ name, email, password: hashedPassword, phoneNumber, parentContact });
     } else if (role === "teacher") {
-      newUser = new TeacherModel({ name, email, password: hashedPassword, subject });
+      newUser = new TeacherModel({ name, email, password: hashedPassword, phoneNumber, subjects});
     } else if (role === "admin") {
-      newUser = new AdminModel({ name, email, password: hashedPassword });
+      newUser = new AdminModel({ name, email, password: hashedPassword, phoneNumber, permissions });
     } else {
       return res.status(400).json({ message: "Invalid role" });
     }

@@ -7,7 +7,11 @@ require('dotenv').config();
 //const mainRouter = require("./src/pages/api/Routes/main")
 const studentsRouter = require("./src/controllers/studentController");
 const authRouter = require("./src/controllers/auth/authController");
-
+const teacherRouter = require("./src/controllers/teacherController")
+const videoRouter = require("./src/controllers/videoController")
+const adminRouter = require("./src/controllers/adminController")
+const coursesRouter = require("./src/controllers/courseController")
+const enrollmentRouter = require("./src/controllers/enrollmentController")
 const seedData = require('./src/lib/seeder');
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -32,7 +36,7 @@ mongoose.connect(mongoURI, {
         console.log("Connected successfully to MongoDB");
 
         // Run seeder here after successful connection
-        // return seedData();
+        //return seedData();
     })
     .then(() => {
         console.log('Seeding completed successfully.');
@@ -64,9 +68,13 @@ app.prepare()
 
   server.use("/api" ,studentsRouter);
   server.use("/api/auth" ,authRouter);
+  server.use("/api",videoRouter)
+  server.use("/api",teacherRouter)
+  server.use("/api",adminRouter)
+  server.use("/api",coursesRouter)
+  server.use("/api",enrollmentRouter)
   
-  
-
+  server.use("/api", teacherRouter)
   server.get('*', (req, res) => {
     return handle(req, res)
   })

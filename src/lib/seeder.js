@@ -79,6 +79,7 @@ const seedData = async () => {
         const videos = [
             { courseId: insertedCourses[0]._id, title: 'Math Basics', description: 'Learn the basics of math', youtubeLink: 'https://youtube.com/video1' },
             { courseId: insertedCourses[1]._id, title: 'World Wars', description: 'A brief overview of the World Wars', youtubeLink: 'https://youtube.com/video2' },
+            { courseId: insertedCourses[1]._id, title: 'World Wars3', description: 'A brief overview of the World Wars 3', youtubeLink: 'https://youtube.com/video3' },
         ];
         const insertedVideos = await Video.insertMany(videos);
 
@@ -90,11 +91,59 @@ const seedData = async () => {
         await Enrollment.insertMany(enrollments);
 
         // Seed Access Codes
-        const accessCodes = [
+        /*const accessCodes = [
             { videoId: insertedVideos[0]._id, code: 'CODE123', status: 'active' },
             { videoId: insertedVideos[1]._id, code: 'CODE456', status: 'active' },
         ];
-        await AccessCode.insertMany(accessCodes);
+        await AccessCode.insertMany(accessCodes);*/
+
+        console.log('seeding the codes');
+        const accessCodes = [
+            {
+                videoId: insertedVideos[0]._id,
+                codes: [
+                    { code: 'CODE123-1', status: 'active', usageCount: 0 },
+                    { code: 'CODE123-2', status: 'used', usageCount: 1 },
+                    { code: 'CODE123-3', status: 'expired', usageCount: 5 }
+                ]
+            },
+            {
+                videoId: insertedVideos[1]._id,
+                codes: [
+                    { code: 'CODE456-1', status: 'active', usageCount: 0 },
+                    { code: 'CODE456-2', status: 'active', usageCount: 2 },
+                    { code: 'CODE456-3', status: 'used', usageCount: 7 }
+                ]
+            },
+            {
+                videoId: insertedVideos[2]._id,
+                codes: [
+                    { code: 'CODE456-9', status: 'active', usageCount: 0 },
+                    { code: 'CODE456-10', status: 'active', usageCount: 2 },
+                    { code: 'CODE456-11', status: 'used', usageCount: 7 }
+                ]
+            }
+        ];
+        
+        try {
+            // Validate each document
+            accessCodes.forEach((accessCode) => {
+                if (!accessCode.videoId) {
+                    throw new Error(`Missing videoId for accessCode: ${JSON.stringify(accessCode)}`);
+                }
+                accessCode.codes.forEach((codeObj) => {
+                    if (!codeObj.code) {
+                        throw new Error(`Missing code in codes array: ${JSON.stringify(codeObj)}`);
+                    }
+                });
+            });
+        
+            // Insert new data
+            await mongoose.model('accessCode').insertMany(accessCodes);
+            console.log('Access codes seeded successfully');
+        } catch (error) {
+            console.error('Error seeding access codes:', error);
+        }
 
         console.log('Seeding completed successfully.');
     } catch (error) {

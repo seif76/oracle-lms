@@ -5,9 +5,6 @@ const cors =  require("cors");
 require('dotenv').config();
 
 //const mainRouter = require("./src/pages/api/Routes/main")
-//const lessonsRouter = require("./src/pages/api/lessons/getAllLessons")
-//const authenticate = require("./src/pages/api/authinticate/authinticate")
-//const studentsRouter = require("./src/pages/api/students/getStudent")
 const studentsRouter = require("./src/controllers/studentController");
 const authRouter = require("./src/controllers/auth/authController");
 
@@ -20,24 +17,6 @@ const handle = app.getRequestHandler()
 // database stuff
 
 const mongoose = require("mongoose");
-// const db = mongoose.connection;
-// db.on("error", console.error.bind(console, "connection error: "));
-// db.once("open", function () {
-  
-//   console.log("Connected successfully");
-
-  
-//   try {
-//     // Run seeder here after the DB connection is established
-//      seedData();
-//     console.log('Seeding completed successfully.');
-//   } catch (error) {
-//     console.error('Error running seeder:', error);
-//   }
-
-// });
-
-//const mongoURI = 'mongodb+srv://oraclelms56:nqEkz4QDJGm5kiVh@cluster0.v0xpf.mongodb.net/Oracle-lms?retryWrites=true&w=majority&appName=Cluster0';
 
 const mongoURI = process.env.MONGODB_URI ;
 
@@ -83,10 +62,6 @@ app.prepare()
   server.use(express.json());
   server.use(express.urlencoded({ extended: true }));
 
-  //server.use("/api" ,mainRouter);
-  //server.use("/api" ,authenticate);
-  //server.use("/api" ,lessonsRouter);
-  //server.use("/api" ,studentsRouter);
   server.use("/api" ,studentsRouter);
   server.use("/api/auth" ,authRouter);
   

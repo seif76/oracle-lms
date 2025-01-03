@@ -83,10 +83,10 @@ export default function Navbar() {
 
 <aside id="default-sidebar" className={`fixed top-0 left-0 z-50 w-64 h-[100%] sm:h-screen transition-transform ${toggle?"-translate-x-full":""} sm:translate-x-0`} aria-label="Sidebar">
    <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-   <Link  href="/" className="flex items-center sm:pl-2.5 sm:mt-0 mt-3.5 mb-3">
-         <img src="/images/logo/edusphere-logo.png" className="h-20 ml-[-20px] sm:mr-3 sm:h-16" alt="Oracle Logo" />
+     <Link  href="/" className="flex items-center sm:pl-2.5 sm:mt-0 mt-3.5 mb-3">
+         <img src="/images/logo/oracle-logo.jpeg" className="h-24 pl-4 ml-[-20px] sm:mr-3 sm:h-16" alt="Oracle Logo" />
          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Oracle</span>
-      </Link>
+     </Link>
       
       <ul className="border-t border-gray-700 mt-2 space-y-2 font-medium">
          <li className="pt-8">

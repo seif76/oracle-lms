@@ -44,126 +44,32 @@ function YoutubeIfram({
   };
 
   return (
- <div 
-  //ref={iframeWrapperRef}
-      className="z-[100]"
-      style={{
-        position: isSimulatedFullscreen? "fixed":"relative",
-        width: isSimulatedFullscreen ? "100vw" : size.width - 450,
-        height: isSimulatedFullscreen ? "100vh" : size.height / 1.5,
-        margin: "0 auto",
-        overflow: "hidden",
-        background: "black",
-        top: "0",
-        left: "0",
-      }}
-      >
-    <div
-    style={{
-      position: "absolute",
-      bottom: 0,
-      left: 0,
-      width: "100%",
-      height: "7%",
-      zIndex: 9999, // Ensure it overlays the iframe
-      backgroundColor: "red",
-    }}
-    onContextMenu={(e) => e.preventDefault()} // Disable right-click
-    
-  ></div>
-  <div
-    style={{
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "45%",
-      zIndex: 9999, // Ensure it overlays the iframe
-      backgroundColor: "blue",
-      pointerEvents: "none" ,
-    }}
-    onContextMenu={(e) => e.preventDefault()} // Disable right-click
-    
-  ></div>
-   <iframe 
-    id="iframe"
-    width={currentWidth || 200} 
-    height={currentheight || 300 }  
-    src={url} 
-    title="YouTube video player" 
-    frameBorder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; " 
-    allowFullScreen
-    sandbox="allow-presentation allow-forms allow-scripts allow-pointer-lock allow-same-origin allow-top-navigation"
-    onContextMenu={(e) => {
-        e.preventDefault(); // Prevent the context menu
-      }}
-    style={isSimulatedFullscreen?{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        zIndex: 9998,
-      }:{
-        //pointerEvents:"none"
-    }}
-    >
-       
-   </iframe>
-
-   {/* Watermark */}
-   <div
-       className="z-[10000]"
-        style={{
-          position: isSimulatedFullscreen?"fixed":"absolute",
-          top: isSimulatedFullscreen?"10px":"20px",
-          right: "20px",
-          color: "white",
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-          padding: "5px 10px",
-          borderRadius: "5px",
-          fontSize: "14px",
-          fontWeight: "bold",
-          pointerEvents: "none",
-        }}
-      >
-        0102232408
-      </div>
-   
+    <div>
+    <iframe 
+     id="iframe"
+     width={currentWidth ||300} 
+     height={currentheight ||200} 
+     src={url} 
+     title="YouTube video player" 
+     frameBorder="0" 
+     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+     allowFullScreen
       
-      {/* Fullscreen Toggle Button */}
-      <button
-        onClick={handleSimulatedFullscreen}
-        className="z-[10000]"
-        style={{
-          position: "absolute",
-          bottom: isSimulatedFullscreen?"0":"0",
-          right: "0",
-          backgroundColor: "rgba(0, 0, 0, 1)",
-          color: "white",
-          padding: isSimulatedFullscreen?"10px 15px":"10px 25px",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-          fontSize: "14px",
-          
-        }}
-      >
-        {isSimulatedFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-      </button>
-    {
-    // <h1>{size.width}px / {size.height}px</h1>
-   }
-   <div className="p-4 relative mt-[300px]">
-            <h2 className="text-2xl font-semibold mb-2">
-              {title}
-            </h2>
-            <p className="text-l text-muted-foreground">
-           {category}
-           </p>
-    </div>
- </div>
+     sandbox="allow-presentation allow-forms allow-scripts allow-pointer-lock allow-same-origin allow-top-navigation"
+     >
+    </iframe>
+     {
+     // <h1>{size.width}px / {size.height}px</h1>
+    }
+    <div className="p-4 flex flex-col">
+             <h2 className="text-2xl font-semibold mb-2">
+               {title}
+             </h2>
+             <p className="text-l text-muted-foreground">
+            {category}
+            </p>
+     </div>
+  </div>
   )
 }
 

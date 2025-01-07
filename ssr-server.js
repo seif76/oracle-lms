@@ -12,6 +12,9 @@ const videoRouter = require("./src/controllers/videoController")
 const adminRouter = require("./src/controllers/adminController")
 const coursesRouter = require("./src/controllers/courseController")
 const enrollmentRouter = require("./src/controllers/enrollmentController")
+
+const jwtAuth = require("./src/Middlewares/jwtAuth");
+
 const seedData = require('./src/lib/seeder');
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -73,6 +76,7 @@ app.prepare()
   server.use("/api",adminRouter)
   server.use("/api",coursesRouter)
   server.use("/api",enrollmentRouter)
+  server.use("/api/auth",jwtAuth) 
   
   server.use("/api", teacherRouter)
   server.get('*', (req, res) => {

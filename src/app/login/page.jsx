@@ -25,22 +25,49 @@ export default function Login() {
         setPassword(currentPassword);
     }
 
-    // function handleLogin(event) {
-    //     event.preventDefault();
+     function handleLogin(event) {
+      event.preventDefault();
+      //Alert("Login Request Data:", { email, password });
+  
+      // try {
+      //   // Send login request to the backend
+      //   const response = axios.post("/api/auth/login", { email, password });
+  
+      //   // Extract the JWT token from the response
+      //   const { token } = response.data;
+  
+      //   // Save token in a cookie for authentication
+      //   cookies.set("jwt", token, { expires: 1 }); // Expires in 1 day
+  
+      //   // Redirect the user to the home page
+      //   router.push("/");
+  
+      //   console.log("Login successful:", response.data.message);
+      // } catch (error) {
+      //   // Handle errors
+      //   if (error.response) {
+      //     alert("Login failed:", error.response.data.message);
+      //     //alert(error.response.data.message);
+      //   } else {
+      //     alert("Unexpected error:", error);
+      //     //alert("An unexpected error occurred. Please try again.");
+      //   }
+      // }
 
-    //     axios.post('/api/login', {},
-    //     {  params: { username: email , password: password }})
-    //     .then(function(response) {
-    //        const token = response.headers.jwt;
-    //        setCookie("jwt" , token);
-    //        router.push("/")
 
-	// 		console.log(response)
-	// 	}).catch(function(error) {
-	// 		console.log(error);
-          
-	// 	});
-    // }
+      axios.post('/api/auth/login', { email, password })
+    .then((response) => {
+      const token = response.data.token;
+      console.log("Login Successful:", response.data.message);
+      // Store token in a cookie 
+      setCookie("jwt", token);  
+      router.push("/"); // Navigate to dashboard or home page
+    })
+    .catch((error) => {
+      console.error("Login Error:", error);
+      // Handle error UI updates if necessary
+    });
+    }
 
     return (
       <>
@@ -110,6 +137,7 @@ export default function Login() {
               <div>
                 <button
                   type="submit"
+                  onClick={handleLogin}
                   
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
@@ -118,12 +146,7 @@ export default function Login() {
               </div>
             </form>
   
-            <p className="mt-10 text-center text-sm text-gray-500">
-              Not a member?{' '}
-              <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                Start a 14 day free trial
-              </a>
-            </p>
+           
           </div>
         </div>
       </>

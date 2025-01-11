@@ -12,6 +12,9 @@ const videoRouter = require("./src/controllers/videoController")
 const adminRouter = require("./src/controllers/adminController")
 const coursesRouter = require("./src/controllers/courseController")
 const enrollmentRouter = require("./src/controllers/enrollmentController")
+const usersRouter =  require("./src/controllers/usersController")
+const authAdminRouter = require("./src/controllers/auth/authAdminController");
+
 
 const jwtAuth = require("./src/Middlewares/jwtAuth");
 
@@ -77,6 +80,10 @@ app.prepare()
   server.use("/api",coursesRouter)
   server.use("/api",enrollmentRouter)
   server.use("/api/auth",jwtAuth) 
+  server.use("/api",usersRouter)
+  server.use("/api/auth/admin",authAdminRouter)
+  
+  
   
   server.use("/api", teacherRouter)
   server.get('*', (req, res) => {

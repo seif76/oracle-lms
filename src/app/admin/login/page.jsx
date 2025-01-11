@@ -27,35 +27,8 @@ export default function Login() {
 
      function handleLogin(event) {
       event.preventDefault();
-      //Alert("Login Request Data:", { email, password });
-  
-      // try {
-      //   // Send login request to the backend
-      //   const response = axios.post("/api/auth/login", { email, password });
-  
-      //   // Extract the JWT token from the response
-      //   const { token } = response.data;
-  
-      //   // Save token in a cookie for authentication
-      //   cookies.set("jwt", token, { expires: 1 }); // Expires in 1 day
-  
-      //   // Redirect the user to the home page
-      //   router.push("/");
-  
-      //   console.log("Login successful:", response.data.message);
-      // } catch (error) {
-      //   // Handle errors
-      //   if (error.response) {
-      //     alert("Login failed:", error.response.data.message);
-      //     //alert(error.response.data.message);
-      //   } else {
-      //     alert("Unexpected error:", error);
-      //     //alert("An unexpected error occurred. Please try again.");
-      //   }
-      // }
 
-
-      axios.post('/api/auth/login', { email, password })
+      axios.post('/api/auth/auth/admin/login', { email, password })
     .then((response) => {
       const token = response.data.token;
       console.log("Login Successful:", response.data.message);

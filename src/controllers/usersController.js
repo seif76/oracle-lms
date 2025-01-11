@@ -15,15 +15,15 @@ const getAllUsers = async () => {
   return [
     ...teachers.map((teacher) => ({
       ...teacher.toObject(),
-      userType: "teacher",
+      role: "teacher",
     })),
     ...students.map((student) => ({
       ...student.toObject(),
-      userType: "student",
+      role: "student",
     })),
     ...admins.map((admin) => ({
       ...admin.toObject(),
-      userType: "admin",
+      role: "admin",
     })),
   ];
 };
@@ -66,14 +66,14 @@ usersController.get("/getById/:id", async (req, res) => {
 usersController.post("/users", async (req, res) => {
   try {
     await connectToDataBase(); // Ensure DB connection
-    const { userType, ...userData } = req.body;
+    const { role, ...userData } = req.body;
 
     let newUser;
-    if (userType === "teacher") {
+    if (role === "teacher") {
       newUser = new Teacher(userData);
-    } else if (userType === "student") {
+    } else if (role === "student") {
       newUser = new Student(userData);
-    } else if (userType === "admin") {
+    } else if (role === "admin") {
       newUser = new Admin(userData);
     } else {
       return res.status(400).json({ message: "Invalid user type" });
@@ -88,18 +88,18 @@ usersController.post("/users", async (req, res) => {
 });
 
 // PUT: Update user by ID
-usersController.put("/updateById/:id", async (req, res) => {
+usersController.put("/users/updateById/:id", async (req, res) => {
   try {
     await connectToDataBase(); // Ensure DB connection
     const { id } = req.params;
-    const { userType, ...userData } = req.body;
+    const { role, ...userData } = req.body;
 
     let updatedUser;
-    if (userType === "teacher") {
+    if (role === "teacher") {
       updatedUser = await Teacher.findByIdAndUpdate(id, userData, { new: true });
-    } else if (userType === "student") {
+    } else if (role === "student") {
       updatedUser = await Student.findByIdAndUpdate(id, userData, { new: true });
-    } else if (userType === "admin") {
+    } else if (role === "admin") {
       updatedUser = await Admin.findByIdAndUpdate(id, userData, { new: true });
     } else {
       return res.status(400).json({ message: "Invalid user type" });
@@ -117,15 +117,27 @@ usersController.put("/updateById/:id", async (req, res) => {
 });
 
 // DELETE: Delete user by ID
-usersController.delete("/deleteById/:id", async (req, res) => {
+usersController.delete("/users/deleteById/:id", async (req, res) => {
   try {
     await connectToDataBase(); // Ensure DB connection
     const { id } = req.params;
-
+    console.log("the id is "+id)
     let deletedUser =
-      (await Teacher.findByIdAndDelete(id)) ||
-      (await Student.findByIdAndDelete(id)) ||
-      (await Admin.findByIdAndDelete(id));
+      (await Teacher.findByIdAndDelete(id).exec()) ||
+      (await Student.findByIdAndDelete(id).exec()) ||
+      (await Admin.findByIdAndDelete(id).exec());
+
+      //let deletedUser;
+    /*  if (role === "teacher") {
+       const deletedUser = await Teacher.findByIdAndDelete(id).exec();
+      } else if (role === "student") {
+       const deletedUser = await Student.findByIdAndDelete(id).exec();
+      } else if (role === "admin") {
+       const deletedUser = await Admin.findByIdAndDelete(id).exec();
+      } else {
+        return res.status(400).json({ message: "Invalid user type" });
+      }*/
+
 
     if (!deletedUser) {
       return res.status(404).json({ message: "User not found" });

@@ -2,18 +2,26 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import AdminEditUser from "../popups/admin/adminEditUsers";
 
-const UserManagement = () => {
-  //const [users, setUsers] = useState([]);
+const AdminUserDashboard = () => {
+  const [users, setUsers] = useState([]);
   const [filterRole, setFilterRole] = useState("");
+  const [filter, setFilter] = useState("");
   const [filterEmail, setFilterEmail] = useState("");
+  const [selectedUser, setSelectedUser] = useState([]);
+  const [selectedId, setSelectedId] = useState("");
+  
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [newUser, setNewUser] = useState({
     name: "",
     email: "",
     phoneNumber: "",
     role: "student",
+    password:"",
+    parentContact:"",
   });
-  const users = [
+  /*const users = [
     {
       _id: "1",
       name: "Lindsay Walton",
@@ -56,60 +64,80 @@ const UserManagement = () => {
       phoneNumber: "678-901-2345",
       role: "Principal Designer",
     },
-  ];
+  ];*/
 
   // Fetch all users
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(
-        `/api/users?role=${filterRole}&email=${filterEmail}`
-      );
+      const response = await axios.get("/api/users");
+      alert(response.data) // Adjust API route as necessary
       setUsers(response.data);
     } catch (error) {
-      console.error("Error fetching users:", error);
+      console.error("Error fetching users", error);
     }
   };
 
-  useEffect(() => {
-    fetchUsers();
-  }, [filterRole, filterEmail]);
-
-  // Add user
-  const addUser = async () => {
+  const createUser = async () => {
     try {
       await axios.post("/api/users", newUser);
-      fetchUsers();
+      fetchUsers(); // Refresh data after creation
     } catch (error) {
-      console.error("Error adding user:", error);
+      console.error("Error creating user", error);
     }
   };
 
-  // Edit user
-  const editUser = async (id, updatedUser) => {
+  /*const updateUser = async (id) => {
     try {
-      await axios.put(`/api/users/${id}`, updatedUser);
-      fetchUsers();
+      await axios.put(`/api/users/updateById/${id}`, formData);
+      fetchUsers(); // Refresh data after update
     } catch (error) {
-      console.error("Error editing user:", error);
+      console.error("Error updating user", error);
     }
-  };
+  };*/
 
-  // Delete user
   const deleteUser = async (id) => {
     try {
-      await axios.delete(`/api/users/${id}`);
-      fetchUsers();
+      await axios.delete(`/api/users/deleteById/${id}`);
+      fetchUsers(); // Refresh data after deletion
     } catch (error) {
-      console.error("Error deleting user:", error);
+      console.error("Error deleting user", error);
     }
   };
+
+
+  useEffect(() => {
+    fetchUsers(); // Fetch users on component load
+  }, []);
+
+  const filteredUsers = users.filter(
+    (user) =>
+      user.role.includes(filter) || user.email.includes(filter)
+  );
+
+  const handleEditClick = (userData) => {
+    setSelectedId(userData._id);
+    setSelectedUser(userData);
+    setEditModalOpen(true);
+  };
+ 
+  const handleModalClose = () => {
+    setEditModalOpen(false);
+    setEditUserId(null);
+  };
+
+  const handleUpdate = () => {
+    // Logic to refresh user data or UI after updating
+    console.log("User updated successfully!");
+  };
+
+
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">User Management</h1>
 
       {/* Filters */}
-      <div className="mb-4 flex gap-4">
+      {/*<div className="mb-4 flex gap-4">
         <select
           className="border p-2"
           value={filterRole}
@@ -130,7 +158,14 @@ const UserManagement = () => {
         <button onClick={fetchUsers} className="bg-blue-500 text-white p-2">
           Apply Filters
         </button>
-      </div>
+      </div>*/}
+      <input
+        type="text"
+        placeholder="Filter by role or email"
+        className="border p-2 mb-4 w-full"
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+      />
 
       {/* User Table */}
       <table className="w-full border-collapse border border-gray-300">
@@ -144,7 +179,7 @@ const UserManagement = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {filteredUsers.map((user) => (
             <tr key={user._id}>
               <td className="border p-2">{user.name}</td>
               <td className="border p-2">{user.email}</td>
@@ -152,7 +187,7 @@ const UserManagement = () => {
               <td className="border p-2">{user.role}</td>
               <td className="border p-2 flex gap-2">
                 <button
-                  onClick={() => editUser(user._id, { ...user, name: "Updated Name" })}
+                  onClick={() => handleEditClick({ ...user })}
                   className="text-blue-500"
                 >
                   <FaEdit />
@@ -195,6 +230,24 @@ const UserManagement = () => {
             setNewUser({ ...newUser, phoneNumber: e.target.value })
           }
         />
+        <input
+          type="text"
+          placeholder="Parent Phone"
+          className="border p-2 mr-2"
+          value={newUser.parentContact}
+          onChange={(e) =>
+            setNewUser({ ...newUser, parentContact: e.target.value })
+          }
+        />
+        <input
+            type="password"
+            placeholder="Password"
+            className="border p-2 mr-2"
+            value={newUser.password}
+            onChange={(e) =>
+                setNewUser({ ...newUser, password: e.target.value })
+            }
+          />
         <select
           className="border p-2 mr-2"
           value={newUser.role}
@@ -204,12 +257,21 @@ const UserManagement = () => {
           <option value="teacher">Teacher</option>
           <option value="admin">Admin</option>
         </select>
-        <button onClick={addUser} className="bg-green-500 text-white p-2">
+        <button onClick={createUser} className="bg-green-500 text-white p-2">
           Add User
         </button>
       </div>
+    
+    <AdminEditUser
+    show={isEditModalOpen}
+    handleClose={() => setEditModalOpen(false)}
+    userData={selectedUser}
+    id={selectedId}
+    fetchUsers={fetchUsers}
+    
+    />
     </div>
   );
 };
 
-export default UserManagement;
+export default AdminUserDashboard;

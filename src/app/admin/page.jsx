@@ -15,7 +15,7 @@ export default function Dashboard() {
     const [authinticate, setAuthinticate] = useState(true);
   
   
-    /*useEffect(() => {
+    useEffect(() => {
   
   
       if (cookies.jwt) {
@@ -31,22 +31,22 @@ export default function Dashboard() {
            }else if (!response.data.authinticate){
              setAuthinticate(false);   
              removeCookie("jwt")
-             router.push("/login")
+             router.push("/admin/login")
             
            }
           //console.log(response)
         }).catch(function(error) {
           removeCookie("jwt")
-          router.push("/login")
+          router.push("/admin/login")
           console.log(error);
           setAuthinticate(false);
         });
           }else{
            removeCookie("jwt")
-            router.push("/login")
+            router.push("/admin/login")
           }
         
-     }, [])*/
+     }, [])
 
 
 

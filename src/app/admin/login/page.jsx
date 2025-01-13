@@ -28,13 +28,13 @@ export default function Login() {
      function handleLogin(event) {
       event.preventDefault();
 
-      axios.post('/api/auth/auth/admin/login', { email, password })
+      axios.post('/api/auth/admin/login', { email, password })
     .then((response) => {
       const token = response.data.token;
       console.log("Login Successful:", response.data.message);
       // Store token in a cookie 
       setCookie("jwt", token);  
-      router.push("/"); // Navigate to dashboard or home page
+      router.push("/admin"); // Navigate to dashboard or home page
     })
     .catch((error) => {
       console.error("Login Error:", error);

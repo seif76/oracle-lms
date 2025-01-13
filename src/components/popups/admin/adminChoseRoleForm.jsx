@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import StudentRegistrationForm from "@/components/Forms/adminAddStudentForm";
+import TeacherRegistrationForm from "@/components/Forms/adminAddTeacherForm";
+import AdminRegistrationForm from "@/components/Forms/adminAddAdminForm";
 const ChooseRolePopup = ({ onClose }) => {
   const [step, setStep] = useState(1);
   const [selectedRole, setSelectedRole] = useState("");
@@ -22,6 +24,20 @@ const ChooseRolePopup = ({ onClose }) => {
     console.log("Student Data:", studentData);
     onClose(); // Close the popup after successful registration
   };
+
+  const handleTeacherSubmit = (TeacherData) => {
+    alert("Teacher registered successfully!");
+    console.log("Teacher Data:", TeacherData);
+    onClose(); // Close the popup after successful registration
+  };
+
+  const handleAdminSubmit = (AdminData) => {
+    alert("Admin registered successfully!");
+    console.log("Admin Data:", AdminData);
+    onClose(); // Close the popup after successful registration
+  };
+
+
 
   const handleSubmit = () => {
     alert(`Form submitted for ${selectedRole}`);
@@ -60,7 +76,7 @@ const ChooseRolePopup = ({ onClose }) => {
             </div>
             <div className="text-center">
               <button
-                className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
+                className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
                 onClick={handleNext}
               >
                 Next
@@ -71,60 +87,23 @@ const ChooseRolePopup = ({ onClose }) => {
           // Step 2: Role Form
           <div>
             {selectedRole === "Student" ? (
+                
               <StudentRegistrationForm onSubmit={handleStudentSubmit} />
+              
             ) : (
               <div>
                 <h2 className="text-xl font-semibold mb-4 text-center">{`Fill ${selectedRole} Details`}</h2>
-                <form className="space-y-4">
+                
                   {selectedRole === "Teacher" && (
                     <>
-                      <div>
-                        <label className="block text-gray-600 font-medium mb-1">Subject</label>
-                        <input
-                          type="text"
-                          placeholder="Enter Subject"
-                          className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-gray-600 font-medium mb-1">
-                          Years of Experience
-                        </label>
-                        <input
-                          type="number"
-                          placeholder="Enter Experience"
-                          className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
-                        />
-                      </div>
+                     <TeacherRegistrationForm onSubmit={handleTeacherSubmit}/> 
                     </>
                   )}
                   {selectedRole === "Admin" && (
                     <>
-                      <div>
-                        <label className="block text-gray-600 font-medium mb-1">Admin Code</label>
-                        <input
-                          type="text"
-                          placeholder="Enter Admin Code"
-                          className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
-                        />
-                      </div>
+                      <AdminRegistrationForm onSubmit={handleAdminSubmit}/>
                     </>
                   )}
-                </form>
-                <div className="flex justify-between mt-6">
-                  <button
-                    className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400"
-                    onClick={handleBack}
-                  >
-                    Back
-                  </button>
-                  <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-                    onClick={handleSubmit}
-                  >
-                    Submit
-                  </button>
-                </div>
               </div>
             )}
           </div>

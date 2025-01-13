@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useEffect } from 'react';
 
-const StudentRegistrationForm = ({ onSubmit }) => {
-  const [studentData, setStudentData] = useState({
+const AdminRegistrationForm = ({ onSubmit }) => {
+  const [adminData, setadminData] = useState({
     name: "",
     email: "",
     password: "",
     phoneNumber: "",
-    parentContact: "",
+    role:"admin",
   });
 
 
@@ -18,25 +18,25 @@ const StudentRegistrationForm = ({ onSubmit }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setStudentData({ ...studentData, [name]: value });
+    setadminData({ ...adminData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post("/api/auth/register", {
-        ...studentData,
-        role: "student"
+        ...adminData,
+        role: "admin"
       });
       setSuccessMessage("Student registered successfully!");
-      setStudentData({
+      setadminData({
         name: "",
         email: "",
         password: "",
         phoneNumber: "",
         parentContact: "",
       });
-      onSubmit(studentData); 
+      onSubmit(adminData); 
     } catch (error) {
       setErrorMessage("An unexpected error occurred. Please try again later.");
     }
@@ -53,7 +53,7 @@ const StudentRegistrationForm = ({ onSubmit }) => {
         <input
           type="text"
           name="name"
-          value={studentData.name}
+          value={adminData.name}
           onChange={handleChange}
           placeholder="Enter Name"
           className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
@@ -65,7 +65,7 @@ const StudentRegistrationForm = ({ onSubmit }) => {
         <input
           type="email"
           name="email"
-          value={studentData.email}
+          value={adminData.email}
           onChange={handleChange}
           placeholder="Enter Email"
           className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
@@ -77,7 +77,7 @@ const StudentRegistrationForm = ({ onSubmit }) => {
         <input
           type="password"
           name="password"
-          value={studentData.password}
+          value={adminData.password}
           onChange={handleChange}
           placeholder="Enter Password"
           className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
@@ -89,23 +89,13 @@ const StudentRegistrationForm = ({ onSubmit }) => {
         <input
           type="text"
           name="phoneNumber"
-          value={studentData.phoneNumber}
+          value={adminData.phoneNumber}
           onChange={handleChange}
           placeholder="Enter Phone Number"
           className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
         />
       </div>
-      <div>
-        <label className="block text-gray-600 font-medium mb-1">Parent's Contact</label>
-        <input
-          type="text"
-          name="parentContact"
-          value={studentData.parentContact}
-          onChange={handleChange}
-          placeholder="Enter Parent's Contact"
-          className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
-        />
-      </div>
+      
 
       {errorMessage && <p className="text-red-500">{errorMessage}</p>}
       {successMessage && <p className="text-green-500">{successMessage}</p>}
@@ -123,4 +113,4 @@ const StudentRegistrationForm = ({ onSubmit }) => {
   );
 };
 
-export default StudentRegistrationForm;
+export default AdminRegistrationForm;

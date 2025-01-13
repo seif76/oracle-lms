@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useEffect } from 'react';
 
-const StudentRegistrationForm = ({ onSubmit }) => {
-  const [studentData, setStudentData] = useState({
+const TeacherRegistrationForm = ({ onSubmit }) => {
+  const [teachersData, setTeachersData] = useState({
     name: "",
     email: "",
     password: "",
     phoneNumber: "",
-    parentContact: "",
+    subjects: "",
+    role:"teacher"
+
   });
 
 
@@ -18,25 +20,25 @@ const StudentRegistrationForm = ({ onSubmit }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setStudentData({ ...studentData, [name]: value });
+    setTeachersData({ ...teachersData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post("/api/auth/register", {
-        ...studentData,
-        role: "student"
+        ...teachersData,
+        role: "teacher"
       });
-      setSuccessMessage("Student registered successfully!");
-      setStudentData({
-        name: "",
+      setSuccessMessage("Teacher registered successfully!");
+      setTeachersData({
+        name: name || "",
         email: "",
         password: "",
         phoneNumber: "",
-        parentContact: "",
+        subjects: "",
       });
-      onSubmit(studentData); 
+      onSubmit(teachersData); 
     } catch (error) {
       setErrorMessage("An unexpected error occurred. Please try again later.");
     }
@@ -53,7 +55,7 @@ const StudentRegistrationForm = ({ onSubmit }) => {
         <input
           type="text"
           name="name"
-          value={studentData.name}
+          value={teachersData.name}
           onChange={handleChange}
           placeholder="Enter Name"
           className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
@@ -65,7 +67,7 @@ const StudentRegistrationForm = ({ onSubmit }) => {
         <input
           type="email"
           name="email"
-          value={studentData.email}
+          value={teachersData.email}
           onChange={handleChange}
           placeholder="Enter Email"
           className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
@@ -77,7 +79,7 @@ const StudentRegistrationForm = ({ onSubmit }) => {
         <input
           type="password"
           name="password"
-          value={studentData.password}
+          value={teachersData.password}
           onChange={handleChange}
           placeholder="Enter Password"
           className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
@@ -89,20 +91,20 @@ const StudentRegistrationForm = ({ onSubmit }) => {
         <input
           type="text"
           name="phoneNumber"
-          value={studentData.phoneNumber}
+          value={teachersData.phoneNumber}
           onChange={handleChange}
           placeholder="Enter Phone Number"
           className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
         />
       </div>
       <div>
-        <label className="block text-gray-600 font-medium mb-1">Parent's Contact</label>
+        <label className="block text-gray-600 font-medium mb-1">Subject</label>
         <input
           type="text"
-          name="parentContact"
-          value={studentData.parentContact}
+          name="subjects"
+          value={teachersData.subjects}
           onChange={handleChange}
-          placeholder="Enter Parent's Contact"
+          placeholder="Subject Being Teached"
           className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
         />
       </div>
@@ -112,7 +114,7 @@ const StudentRegistrationForm = ({ onSubmit }) => {
 
       <button
         type="submit"
-        className={`w-full px-4 py-2 rounded-lg ${
+        className={`w-full px-4 py-2 rounded-lg  ${
           loading ? "bg-gray-400 cursor-not-allowed" : "text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
         }`}
         disabled={loading}
@@ -123,4 +125,4 @@ const StudentRegistrationForm = ({ onSubmit }) => {
   );
 };
 
-export default StudentRegistrationForm;
+export default TeacherRegistrationForm;

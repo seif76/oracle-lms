@@ -8,7 +8,7 @@ const AdminEditUser = ({ show, handleClose, userData, id ,fetchUsers }) => {
     name: "",
     email: "",
     phoneNumber: "",
-    role: "student", // Default to "student"
+    role: "", // Default to "student"
     password: "",
   });
 
@@ -20,7 +20,7 @@ const AdminEditUser = ({ show, handleClose, userData, id ,fetchUsers }) => {
         name: userData.name || "",
         email: userData.email || "",
         phoneNumber: userData.phoneNumber || "",
-        role: userData.role || "student",
+        role: userData.role || "",
         password: userData.password || "",
       });
     }

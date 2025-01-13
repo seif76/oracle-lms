@@ -84,13 +84,25 @@ const AdminUserDashboard = () => {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">User Management</h1>
-      <input
-        type="text"
-        placeholder="Filter by role or email"
-        className="border p-2 mb-4 w-full"
-        value={filter}
-        onChange={(e) => setFilter(e.target.value)}
-      />
+      <div className="flex justify-between items-center">
+  <input
+    type="text"
+    placeholder="Filter by role or email"
+    className="border p-2 mb-4 w-[48%]" // Slightly reduce width to give space for button
+    value={filter}
+    onChange={(e) => setFilter(e.target.value)}
+  />
+  <button
+    onClick={() => setIsRegisterPopupOpen(true)}
+    className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+  >
+    Add User
+  </button>
+</div>
+
+{isRegisterPopupOpen && 
+  <ChooseRolePopup onClose={() => setIsRegisterPopupOpen(false)} />
+}
 
       {/* User Table */}
       <table className="w-full border-collapse border border-gray-300">
@@ -128,16 +140,6 @@ const AdminUserDashboard = () => {
           ))}
         </tbody>
       </table>
-
-      {/* Add User */}
-      <div className="mt-4">
-        <button onClick={() => setIsRegisterPopupOpen(true)} className="bg-green-500 text-white p-2">
-          Add User
-        </button>
-        {isRegisterPopupOpen && 
-        <ChooseRolePopup 
-        onClose={() => setIsRegisterPopupOpen(false)} />}
-      </div>
     
     <AdminEditUser
     show={isEditModalOpen}

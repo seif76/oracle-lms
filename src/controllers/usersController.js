@@ -4,6 +4,7 @@ const Teacher = require("../lib/teacher");
 const Student = require("../lib/student");
 const Admin = require("../lib/admin");
 const connectToDataBase = require("../lib/mongodb");
+const bcrypt = require("bcrypt");
 
 const usersController = express.Router();
 
@@ -92,7 +93,12 @@ usersController.put("/users/updateById/:id", async (req, res) => {
   try {
     await connectToDataBase(); // Ensure DB connection
     const { id } = req.params;
-    const { role, ...userData } = req.body;
+    const { role, password ,...userData } = req.body;
+
+    if (password) {
+      userData.password = await bcrypt.hash(password, 10);
+    }
+
 
     let updatedUser;
     if (role === "teacher") {

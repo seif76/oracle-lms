@@ -102,25 +102,22 @@ const seedData = async () => {
             {
                 videoId: insertedVideos[0]._id,
                 codes: [
-                    { code: 'CODE123-1', status: 'active', usageCount: 0 },
-                    { code: 'CODE123-2', status: 'used', usageCount: 1 },
-                    { code: 'CODE123-3', status: 'expired', usageCount: 5 }
+                    { code: 'CODE123-1', status: 'active', usageCount: 0,assignedTo:insertedStudents[0]._id },
+                    { code: 'CODE123-2', status: 'used', usageCount: 1 ,assignedTo:insertedStudents[1]._id}
                 ]
             },
             {
                 videoId: insertedVideos[1]._id,
                 codes: [
-                    { code: 'CODE456-1', status: 'active', usageCount: 0 },
-                    { code: 'CODE456-2', status: 'active', usageCount: 2 },
-                    { code: 'CODE456-3', status: 'used', usageCount: 7 }
+                    { code: 'CODE456-1', status: 'active', usageCount: 0 ,assignedTo:insertedStudents[0]._id},
+                    { code: 'CODE456-2', status: 'active', usageCount: 2 ,assignedTo:insertedStudents[1]._id}
                 ]
             },
             {
                 videoId: insertedVideos[2]._id,
                 codes: [
-                    { code: 'CODE456-9', status: 'active', usageCount: 0 },
-                    { code: 'CODE456-10', status: 'active', usageCount: 2 },
-                    { code: 'CODE456-11', status: 'used', usageCount: 7 }
+                    { code: 'CODE456-9', status: 'active', usageCount: 0 ,assignedTo:insertedStudents[0]._id},
+                    { code: 'CODE456-10', status: 'active', usageCount: 2 ,assignedTo:insertedStudents[1]._id}
                 ]
             }
         ];

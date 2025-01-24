@@ -14,8 +14,8 @@ const coursesRouter = require("./src/controllers/courseController")
 const enrollmentRouter = require("./src/controllers/enrollmentController")
 const usersRouter =  require("./src/controllers/usersController")
 const authAdminRouter = require("./src/controllers/auth/authAdminController");
-
-
+//const { createUploadthing } = require('uploadthing/server');
+const uploadThingRouter = require("./src/controllers/uploadThings/route.ts");
 const jwtAuth = require("./src/Middlewares/jwtAuth");
 
 //const seedData = require('./src/lib/seeder');
@@ -64,6 +64,7 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 const fs = require("fs");
 
 
+
 app.prepare()
 .then(() => {
   const server = express()
@@ -71,6 +72,9 @@ app.prepare()
 
   server.use(express.json());
   server.use(express.urlencoded({ extended: true }));
+
+  
+  server.use("/api", uploadThingRouter);
 
   server.use("/api" ,studentsRouter);
   server.use("/api/auth" ,authRouter);

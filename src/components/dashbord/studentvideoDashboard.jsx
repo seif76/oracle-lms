@@ -7,12 +7,16 @@ import CourseCard from "@/components/cards/courseCard";
 import CategoryCard from "@/components/cards/categoryCard";
 import React, {useEffect , useState}from "react";
 import axios from "axios";
+import VideoCard from "../cards/videoCard";
+import CourseBanner from "../cards/courseBanner";
 
 export default function video({searchquery}) {
     //const router = useRouter();
 
     const pathname = usePathname();
     const [videos, setVideos] = useState([]);
+    const [Course, setCourse] = useState([]);
+    const [Teacher, setTeacher] = useState([]);
     // this useEffect handles all courses data once the page is loaded
 
     const [filteredVideos, setFilteredVideos] = useState([]);
@@ -33,10 +37,11 @@ export default function video({searchquery}) {
 
       const courseId = extractLastUrl(pathname);
       axios.get(`/api/videos/course/${courseId}` ).then(function(response) {
- 
-        setVideos(response.data);
-        setFilteredVideos(response.data);
-        //alert("the array is : " + JSON.stringify(response.data))
+        setCourse(response.data.Course)
+        setVideos(response.data.videos);
+        setFilteredVideos(response.data.videos);
+        setTeacher(response.data.Teacher)
+        //alert("the array is : " + JSON.stringify(response.data.Teacher))
       }).catch(function(error) {
         console.log(error);
            
@@ -66,25 +71,31 @@ export default function video({searchquery}) {
     
 
     const categories = ["All","Arabic","Maths","Physics","English","Science","French","Biology"]
-
+    // /testlms.PNG
     return (
        <div>
-        <div  className="flex items-center gap-x-2 overflow-x-auto pb-2">
-          {categories.map((category,index) => (
-            <CategoryCard 
-              key={index}
-              category={category}
-              activeCategory={Activecategory}
-              handleCategory={handleCategory}
-            />
-            ))}
-          </div>
+         <CourseBanner
+        title={Course?.title || "loading..." }
+        description={Course?.description || "loading..."}
+        teacherName={Teacher?.name || "loading..."}
+        bannerImageUrl={ "/testlms.PNG"}
+      />
+        
 
-        <div className="grid sm:mt-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4">
+        <div className="flex flex-col gap-4 mt-4">
          {filteredVideos.map((video) => (
-           <CourseCard
+           /*<CourseCard
              key={video._id}
              id={"video/"+video._id}
+             title={video.title}
+             category={"course.category"}
+             imageUrl={"/testlms.PNG"}
+             duration={"course.duration"}
+            />*/
+            <VideoCard
+             key={video._id}
+             videoId={video._id}
+             urlToNavigate={"video/"+video._id}
              title={video.title}
              category={"course.category"}
              imageUrl={"/testlms.PNG"}

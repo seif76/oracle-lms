@@ -18,7 +18,7 @@ const authAdminRouter = require("./src/controllers/auth/authAdminController");
 
 const jwtAuth = require("./src/Middlewares/jwtAuth");
 
-const seedData = require('./src/lib/seeder');
+//const seedData = require('./src/lib/seeder');
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })

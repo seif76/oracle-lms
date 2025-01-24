@@ -10,6 +10,7 @@ const studentSchema = new mongoose.Schema({
     role: { type: String, default: 'student' },
     devices: [{ type: String, max: 2 }],
     createdAt: { type: Date, default: Date.now }
+
 });
 
 module.exports = mongoose.model('student', studentSchema);

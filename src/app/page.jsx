@@ -4,7 +4,7 @@ import axios from "axios";
 import { useRouter } from 'next/navigation'
 import { useCookies } from 'react-cookie';
 
-import DashboardPage from "@/components/dashbord/studentCoursesDashboard";
+import DashboardPage from "@/components/dashbord/students/studentCoursesDashboard";
 import NavLayout from "@/components/navigation/navLayout";
 import LazyLoad from "@/components/loading/lazyLoading";
 export default function Dashboard() {

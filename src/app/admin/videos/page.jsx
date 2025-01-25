@@ -6,7 +6,7 @@ import { useCookies } from 'react-cookie';
 
 import NavLayout from "@/components/navigation/adminNavigation/adminNavLayout";
 import LazyLoad from "@/components/loading/lazyLoading";
-import AdminUserDashboard from "@/components/dashbord/admins/adminUsersDashboard";
+import AdminVideosDashboard from "@/components/dashbord/admins/AdminVideosDashboard";
 export default function Dashboard() {
   
     const [cookies, setCookie,removeCookie] = useCookies(['jwt']);
@@ -55,7 +55,7 @@ export default function Dashboard() {
     {authinticate?
   <NavLayout>
   
-  <AdminUserDashboard/>
+  <AdminVideosDashboard/>
   </NavLayout>
   :
    <LazyLoad />

@@ -1,24 +1,26 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import axios from "axios";
 
-const CourseCreationForm = ({ onClose, onCourseCreated }) => {
-  const [courseData, setCourseData] = useState({
+const VideoCreationForm = ({ onClose, onVideoCreated }) => {
+  const [videoData, setVideoData] = useState({
     title: "",
     description: "",
-    teacherId: "",
+    courseId: "",
+    youtubeLink: "",
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [file, setFile] = useState(null);
 
-  // Handle input changes for course details
+  // Handle input changes for video details
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCourseData({ ...courseData, [name]: value });
+    setVideoData({ ...videoData, [name]: value });
   };
+
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile && selectedFile.size <= 4 * 1024 * 1024) {
@@ -31,16 +33,16 @@ const CourseCreationForm = ({ onClose, onCourseCreated }) => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //alert("the array is : " + JSON.stringify(courseData))
     setLoading(true);
     setErrorMessage("");
 
     try {
-      // Send course data to the backend including the image URL
+      // Create FormData to handle the file upload
       const formData = new FormData();
-      formData.append("title", courseData.title);
-      formData.append("description", courseData.description);
-      formData.append("teacherId", courseData.teacherId);
+      formData.append("title", videoData.title);
+      formData.append("description", videoData.description);
+      formData.append("courseId", videoData.courseId);
+      formData.append("youtubeLink", videoData.youtubeLink);
       if (file) {
         formData.append("image", file); // Append the image file
       } else {
@@ -48,19 +50,19 @@ const CourseCreationForm = ({ onClose, onCourseCreated }) => {
       }
 
       // Send POST request to backend
-      const response = await axios.post("/api/newCourse", formData, {
+      const response = await axios.post("/api/newVideo", formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Ensure correct headers for file uploads
         },
       });
 
       if (response.status === 201) {
-        onCourseCreated(response.data); // Notify parent of the new course
-        setCourseData({ title: "", description: "", teacherId: "" });
-        setFile(null); // Reset image URL after creation
+        onVideoCreated(response.data); // Notify parent of the new video
+        setVideoData({ title: "", description: "", courseId: "", youtubeLink: "" });
+        setFile(null); // Reset image after creation
         onClose(); // Close the modal or form
       } else {
-        throw new Error("Course creation failed.");
+        throw new Error("Video creation failed.");
       }
     } catch (error) {
       setErrorMessage(error.response?.data?.message || error.message);
@@ -76,9 +78,9 @@ const CourseCreationForm = ({ onClose, onCourseCreated }) => {
         <input
           type="text"
           name="title"
-          value={courseData.title}
+          value={videoData.title}
           onChange={handleChange}
-          placeholder="Enter course title"
+          placeholder="Enter video title"
           className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
           required
         />
@@ -88,33 +90,43 @@ const CourseCreationForm = ({ onClose, onCourseCreated }) => {
         <label className="block text-gray-600 font-medium mb-1">Description</label>
         <textarea
           name="description"
-          value={courseData.description}
+          value={videoData.description}
           onChange={handleChange}
-          placeholder="Enter course description"
+          placeholder="Enter video description"
           className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
           rows={3}
         />
       </div>
 
       <div>
-        <label className="block text-gray-600 font-medium mb-1">Teacher ID</label>
+        <label className="block text-gray-600 font-medium mb-1">Course ID</label>
         <input
           type="text"
-          name="teacherId"
-          value={courseData.teacherId}
+          name="courseId"
+          value={videoData.courseId}
           onChange={handleChange}
-          placeholder="Enter teacher ID"
+          placeholder="Enter course ID"
           className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
           required
         />
       </div>
-      
+
+      <div>
+        <label className="block text-gray-600 font-medium mb-1">YouTube Link</label>
+        <input
+          type="url"
+          name="youtubeLink"
+          value={videoData.youtubeLink}
+          onChange={handleChange}
+          placeholder="Enter YouTube video link"
+          className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
+          required
+        />
+      </div>
 
       <div>
         <label className="block text-gray-600 font-medium mb-1">Image</label>
-        {/* UploadButton from Uploadthing */}
-        <input type="file" accept="image/*" onChange={handleFileChange}   />
-       
+        <input type="file" accept="image/*" onChange={handleFileChange} />
       </div>
 
       {errorMessage && <p className="text-red-500">{errorMessage}</p>}
@@ -128,10 +140,10 @@ const CourseCreationForm = ({ onClose, onCourseCreated }) => {
         }`}
         disabled={loading}
       >
-        {loading ? "Creating Course..." : "Create Course"}
+        {loading ? "Creating Video..." : "Create Video"}
       </button>
     </form>
   );
 };
 
-export default CourseCreationForm;
+export default VideoCreationForm;

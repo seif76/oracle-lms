@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft, MdKeyboardDoubleArrowRight, MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import AdminEditUser from "../popups/admin/adminEditUsers";
-import ChooseRolePopup from "../popups/admin/adminChoseRoleForm";
+import AdminEditUser from "../../popups/admin/adminEditUsers";
+import ChooseRolePopup from "../../popups/admin/adminChoseRoleForm";
 
 const AdminUserDashboard = () => {
   const [users, setUsers] = useState([]);

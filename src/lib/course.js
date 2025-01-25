@@ -6,10 +6,10 @@ const courseSchema = new mongoose.Schema({
     description: { type: String, required: false },
     teacherId: { type: mongoose.Schema.Types.ObjectId, ref: 'teacher', required: true },
     createdAt: { type: Date, default: Date.now },
-    imageUrl: {
-        type: String, // Field to store the uploaded image URL
-        required: false, // Set to true if the image is mandatory
-      },
+    image: {
+       data: Buffer, // Store the binary data of the image
+       contentType: String, // Store the MIME type of the image (e.g., "image/jpeg", "image/png")
+      }, 
 });
 
 module.exports = mongoose.model('course', courseSchema);

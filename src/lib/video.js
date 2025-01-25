@@ -6,6 +6,10 @@ const videoSchema = new mongoose.Schema({
     title: { type: String, required: true },
     description: { type: String, required: false },
     youtubeLink: { type: String, required: true },
+    image: {
+        data: Buffer, // Store the binary data of the image
+        contentType: String, // Store the MIME type of the image (e.g., "image/jpeg", "image/png")
+       }, 
     createdAt: { type: Date, default: Date.now }
 });
 

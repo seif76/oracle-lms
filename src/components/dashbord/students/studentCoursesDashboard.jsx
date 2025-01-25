@@ -21,7 +21,7 @@ export default function studentDashboard({ searchquery }) {
 
     // this useEffect handles all courses data once the page is loaded
     useEffect(() => {
-      axios.get('/api/courses/' ).then(function(response) {
+      axios.get('/api/courses-with-images' ).then(function(response) {
  
         setCourses(response.data);
         setFilteredCourses(response.data);
@@ -45,34 +45,9 @@ export default function studentDashboard({ searchquery }) {
         }
       }, [searchquery]);
 
-    // those arrays are for testing purposes and will be removed soon 
-    
     const handleCategory = (category) => {
       setActiveCategory(category)
     };
-    const makeLowerCase = (string) => {
-
-      return string?.toString().toLowerCase() 
-      
-    }
-    
-    const filteredLessons = [
-      {
-      _id: "123456",
-      title: "Introduction to React",
-      category: "Web Development",
-      bgImage: "/testlms.PNG", // You can use any image URL
-      duration: "2 hours"
-     },
-     {
-      _id: "12345996",
-      title: "Introduction to laravel",
-      category: "Web Development",
-      bgImage: "/testlms.PNG", // You can use any image URL
-      duration: "1 hours"
-     }
-    ];
-
     
     return (
       
@@ -95,7 +70,7 @@ export default function studentDashboard({ searchquery }) {
              id={"videos/"+course._id}
              title={course.title}
              category={"course.category"}
-             imageUrl={"/testlms.PNG"}
+             imageUrl={course.image || "/testlms.PNG"}
              duration={"course.duration"}
             />
           ))}

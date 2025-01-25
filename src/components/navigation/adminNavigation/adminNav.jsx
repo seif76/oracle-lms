@@ -8,6 +8,9 @@ import * as FiIcons from 'react-icons/fi';
 import * as CgIcons from 'react-icons/cg';
 import * as RxIcons from 'react-icons/rx';
 import * as Io5Icons from 'react-icons/io5';
+import * as MdIcons from "react-icons/md";
+
+
 
 
 import { useRouter } from 'next/navigation'
@@ -24,6 +27,7 @@ export default function Navbar() {
  const DashboardIcon = RxIcons["RxDashboard"];
  const PricingIcon = Io5Icons["IoPricetagOutline"];
  const FaqIcon = AiIcons["AiOutlineQuestionCircle"];
+ const VideoIcon = MdIcons["MdVideoLibrary"];
 
 
  const [cookies, setCookie , removeCookie] = useCookies(['jwt']);
@@ -117,6 +121,16 @@ export default function Navbar() {
 
               </div>
                <span className="ml-3 mt-[5px] text-2xl sm:text-base">Courses</span>
+            </Link>
+         </li>
+         <li>
+            <Link href="/admin/videos" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <div className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+              
+            <VideoIcon size={25} />
+
+              </div>
+               <span className="ml-3 mt-[5px] text-2xl sm:text-base">Videos</span>
             </Link>
          </li>
          

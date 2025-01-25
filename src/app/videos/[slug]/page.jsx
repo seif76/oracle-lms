@@ -1,6 +1,6 @@
 
 'use client'
-import DashboardPage from "@/components/dashbord/studentvideoDashboard";
+import DashboardPage from "@/components/dashbord/students/studentvideoDashboard";
 import NavLayout from "@/components/navigation/navLayout";
 
 import React, {useEffect , useState}from "react";

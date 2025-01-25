@@ -15,8 +15,6 @@ const enrollmentRouter = require("./src/controllers/enrollmentController")
 const accessCodesRouter = require("./src/controllers/accessCodes")
 const usersRouter =  require("./src/controllers/usersController")
 const authAdminRouter = require("./src/controllers/auth/authAdminController");
-
-
 const jwtAuth = require("./src/Middlewares/jwtAuth");
 
 const seedData = require('./src/lib/seeder');
@@ -63,6 +61,7 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 
 const fs = require("fs");
+
 
 
 app.prepare()

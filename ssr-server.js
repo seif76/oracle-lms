@@ -12,11 +12,12 @@ const videoRouter = require("./src/controllers/videoController")
 const adminRouter = require("./src/controllers/adminController")
 const coursesRouter = require("./src/controllers/courseController")
 const enrollmentRouter = require("./src/controllers/enrollmentController")
+const accessCodesRouter = require("./src/controllers/accessCodes")
 const usersRouter =  require("./src/controllers/usersController")
 const authAdminRouter = require("./src/controllers/auth/authAdminController");
 const jwtAuth = require("./src/Middlewares/jwtAuth");
 
-//const seedData = require('./src/lib/seeder');
+const seedData = require('./src/lib/seeder');
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -40,7 +41,7 @@ mongoose.connect(mongoURI, {
         console.log("Connected successfully to MongoDB");
 
         // Run seeder here after successful connection
-        //return seedData();
+       // return seedData();
     })
     .then(() => {
         console.log('Seeding completed successfully.');
@@ -78,6 +79,8 @@ app.prepare()
   server.use("/api",adminRouter)
   server.use("/api",coursesRouter)
   server.use("/api",enrollmentRouter)
+  server.use("/api",accessCodesRouter)
+  
   server.use("/api/auth",jwtAuth) 
   server.use("/api",usersRouter)
   server.use("/api/auth/admin",authAdminRouter)

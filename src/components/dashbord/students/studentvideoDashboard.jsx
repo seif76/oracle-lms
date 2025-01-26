@@ -7,8 +7,10 @@ import CourseCard from "@/components/cards/courseCard";
 import CategoryCard from "@/components/cards/categoryCard";
 import React, {useEffect , useState}from "react";
 import axios from "axios";
-import VideoCard from "../cards/videoCard";
-import CourseBanner from "../cards/courseBanner";
+import VideoCard from "@/components/cards/videoCard";
+import CourseBanner from "@/components/cards/courseBanner";
+//import VideoCard from "../cards/videoCard";
+//import CourseBanner from "../cards/courseBanner";
 
 export default function video({searchquery}) {
     //const router = useRouter();
@@ -101,6 +103,7 @@ export default function video({searchquery}) {
              imageUrl={"/testlms.PNG"}
              duration={"course.duration"}
             />
+            
           ))}
        </div>
 

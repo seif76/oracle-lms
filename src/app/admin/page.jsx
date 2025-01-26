@@ -15,7 +15,7 @@ export default function Dashboard() {
     const [authinticate, setAuthinticate] = useState(true);
   
   
-    useEffect(() => {
+    /*useEffect(() => {
   
   
       if (cookies.jwt) {
@@ -46,7 +46,7 @@ export default function Dashboard() {
             router.push("/admin/login")
           }
         
-     }, [])
+     }, [])*/
 
 
 

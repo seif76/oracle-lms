@@ -7,10 +7,8 @@ import CourseCard from "@/components/cards/courseCard";
 import CategoryCard from "@/components/cards/categoryCard";
 import React, {useEffect , useState}from "react";
 import axios from "axios";
-import VideoCard from "@/components/cards/videoCard";
-import CourseBanner from "@/components/cards/courseBanner";
-//import VideoCard from "../cards/videoCard";
-//import CourseBanner from "../cards/courseBanner";
+import VideoCard from "../../cards/videoCard";
+import CourseBanner from "../../cards/courseBanner";
 
 export default function video({searchquery}) {
     //const router = useRouter();
@@ -33,9 +31,6 @@ export default function video({searchquery}) {
     };
 
     useEffect(() => {
-      //alert("path is : "+pathname);
-      
-      //alert("path is : "+extractLastUrl(pathname));
 
       const courseId = extractLastUrl(pathname);
       axios.get(`/api/videos/course/${courseId}` ).then(function(response) {
@@ -85,7 +80,7 @@ export default function video({searchquery}) {
         
 
         <div className="flex flex-col gap-4 mt-4">
-         {filteredVideos.map((video) => (
+         {filteredVideos?.map((video) => (
            /*<CourseCard
              key={video._id}
              id={"video/"+video._id}

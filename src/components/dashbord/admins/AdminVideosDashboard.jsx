@@ -31,7 +31,7 @@ const AdminVideosDashboard = () => {
 
   const deletevideo = async (videoId) => {
     try {
-      await axios.delete(`/api/videos/deleteById/${videoId}`);
+      await axios.delete(`/api/videos/deleteVideoById/${videoId}`);
       fetchvideos(); // Refresh data after deletion
     } catch (error) {
       console.error("Error deleting video", error);
@@ -54,7 +54,7 @@ const AdminVideosDashboard = () => {
 
   const filteredvideos = videos.filter(
     (video) =>
-      video.title.toLowerCase().includes(filter.toLowerCase()) ||
+      video.title?.toLowerCase().includes(filter.toLowerCase()) ||
       video.description?.toLowerCase().includes(filter.toLowerCase()) ||
       video.courseName?.toLowerCase().includes(filter.toLowerCase())
   );

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import VideoDetails from "@/components/video/VideoDetails";
@@ -7,48 +7,41 @@ import { usePathname } from "next/navigation";
 
 const SingleVideoPage = () => {
   const [video, setVideo] = useState(null);
-  const [accessCodes, setAccessCodes] = useState([]);
+  const [allAccessCodes, setAllAccessCodes] = useState([]); // Store all codes
+  const [filteredAccessCodes, setFilteredAccessCodes] = useState([]); // Store filtered codes
   const [filter, setFilter] = useState(""); // "active", "used", "expired"
   const [loading, setLoading] = useState(true);
   const pathname = usePathname();
-  
+
+  // Extract the last segment of the URL
   const extractLastUrl = (fullUrl) => {
-    const segments = fullUrl.split('/');
-    const last = segments[segments.length - 1] || segments[segments.length - 2];
-    
-    return last
-    // console.log("the cat is : "+ category);
+    const segments = fullUrl.split("/");
+    return segments[segments.length - 1] || segments[segments.length - 2];
   };
 
   useEffect(() => {
     const fetchVideoDetails = async () => {
-        const videoId = extractLastUrl(pathname);
+      const videoId = extractLastUrl(pathname);
       try {
         setLoading(true);
-        const videoResponse = await axios.get(`/api/vidoes/video/${videoId}`);
-        setVideo(videoResponse.data); 
-        fetchAccessCodes(); // Fetch codes after video
-      } catch (error) {
-        console.error("Error fetching video details:", error);
-      }
-    };
 
-    const fetchAccessCodes = async () => {
-        const videoId = extractLastUrl(pathname);
-      try {
-        const accessCodeResponse = await axios.get(`/api/accessCodes/${videoId}`, {
-          params: { status: filter },
-        });
-        setAccessCodes(accessCodeResponse.data);
+        // Fetch video details
+        const videoResponse = await axios.get(`/api/vidoes/video/${videoId}`);
+        setVideo(videoResponse.data);
+
+        // Fetch all access codes for the video
+        const accessCodeResponse = await axios.get(`/api/accessCodes/${videoId}`);
+        setAllAccessCodes(accessCodeResponse.data); // Store all codes
+        setFilteredAccessCodes(accessCodeResponse.data); // Initially, show all codes
       } catch (error) {
-        console.error("Error fetching access codes:", error);
+        console.error("Error fetching video details or access codes:", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchVideoDetails();
-  }, [filter]);
+  }, [pathname]);
 
   return (
     <div className="p-6">
@@ -59,9 +52,9 @@ const SingleVideoPage = () => {
         <>
           {video && <VideoDetails video={video} />}
           <AccessCodeTable
-            accessCodes={accessCodes}
+            accessCodes={filteredAccessCodes} // Pass filtered codes to the table
             filter={filter}
-            onFilterChange={setFilter}
+            onFilterChange={setFilter} // Update the filter state
           />
         </>
       )}

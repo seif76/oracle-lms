@@ -10,6 +10,7 @@ import axios from "axios";
 import { useRouter } from 'next/navigation'
 import { useCookies } from 'react-cookie';
 import LazyLoad from "@/components/loading/lazyLoading";
+import { jwtDecode } from "jwt-decode";
 
 
 export default function Dashboard() {
@@ -22,8 +23,6 @@ export default function Dashboard() {
     const [authinticate, setAuthinticate] = useState(false);
   
     useEffect(() => {
-  
-  
       if (cookies.jwt) {
           axios.get('/api/auth/jwtAuth',{
           headers : {
@@ -53,6 +52,38 @@ export default function Dashboard() {
           }
         
      }, [])  
+     
+    const [studentData, setStudentData] = useState([]);
+    
+    const token = cookies.jwt;
+
+   
+    
+    useEffect(() => {
+         if(token){
+            const decodedJwt = jwtDecode(token);
+            const id = decodedJwt.id;
+
+
+            axios.get(`/api/students/getById/${id}`)
+              .then(function(response) {
+                
+                 if (response.data) {
+                    setStudentData(response.data);   
+                   }
+                //console.log(response)
+              }).catch(function(error) {
+                console.log(error)
+                
+              });
+
+             }else{
+                 removeCookie("jwt")
+                 router.push("/login")
+                }
+            
+         
+       }, [])
 
 
 
@@ -66,6 +97,7 @@ export default function Dashboard() {
      url={"https://www.youtube.com/embed/Y8G6IHlftgc?si=0kmlIz_3lH4oarE3&rel=0&modestbranding=1&autoplay=1"}
      title={"title test "}
      category={"test category"}
+     phoneNumber={studentData.phoneNumber}
      />
      
      </div>

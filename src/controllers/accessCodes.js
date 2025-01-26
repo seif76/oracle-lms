@@ -67,7 +67,27 @@ router.post('/AccessCode/validate' , async (req, res) => {
   }
   });  
   
-  
+  // Fetch access codes for a specific video with optional filter
+router.get('/accessCodes/:videoId', async (req, res) => {
+  const { videoId } = req.params;
+  const { status } = req.query; // Filter by status (active, used, expired)
+
+  try {
+    const query = { videoId };
+    if (status) query['codes.status'] = status;
+    await connectToDataBase(); 
+
+    const accessCodes = await accessCodeModel.find(query).populate({
+      path: 'codes.assignedTo',
+      select: 'name email', // Select relevant fields of assigned students
+    });
+    res.status(200).json(accessCodes);
+  } catch (error) {
+    console.error('Error fetching access codes:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
   
   
   

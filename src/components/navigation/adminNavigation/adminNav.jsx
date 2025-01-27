@@ -32,7 +32,7 @@ export default function Navbar() {
 
   function handleSignOut() {
     removeCookie("jwt");
-    alert("fonnee");
+    //alert("fonnee");
     router.push("/login");
   }
 
@@ -47,8 +47,8 @@ export default function Navbar() {
         <div className="px-3 py-3 lg:px-5 lg:pl-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start">
-              <Link href="/" className="flex  ml-2 md:mr-24">
-                <img src="/images/logo/edusphere-logo.png" className=" h-16 ml-[-20px] sm:mr-3 sm:h-7" alt="Oracle Logo" />
+              <Link href="/admin" className="flex  ml-2 md:mr-24">
+                <img src="/images/logo/oracle-logo.jpeg" className=" h-16 ml-[-20px] sm:mr-3 sm:h-7" alt="Oracle Logo" />
                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Oracle</span>
               </Link>
               <button onClick={handleNavbarMobile} data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" className=" fixed top-[25px] right-[25px] inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
@@ -64,7 +64,7 @@ export default function Navbar() {
 
       <aside id="default-sidebar" className={`fixed top-0 left-0 z-50 w-64 h-[100%] sm:h-screen transition-transform ${toggle ? "-translate-x-full" : ""} sm:translate-x-0`} aria-label="Sidebar">
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <Link href="/" className="flex items-center sm:pl-2.5 sm:mt-0 mt-3.5 mb-3">
+          <Link href="/admin" className="flex items-center sm:pl-2.5 sm:mt-0 mt-3.5 mb-3">
             <img src="/images/logo/oracle-logo.jpeg" className="h-24 pl-4 ml-[-20px] sm:mr-3 sm:h-16" alt="Oracle Logo" />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Oracle</span>
           </Link>
@@ -106,7 +106,7 @@ export default function Navbar() {
             </li>
 
             <li>
-              <Link href="/analytics" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              <Link href="/admin/analytics" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <div className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
                   <BsGraphUp size={25} />
                 </div>

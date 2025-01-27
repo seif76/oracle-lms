@@ -180,4 +180,58 @@ router.put("/courses/updateCourseById/:id", upload.single("image"), async (req, 
   }
 });
 
+// start teacher specific methods
+
+// get courses with teacher Id asigned
+router.get("/courses/getCourses/:teacherId", async (req, res) => {
+  const { teacherId } = req.params; // Get teacherId from the URL parameter
+
+  try {
+    await connectToDataBase(); // Ensure DB connection
+
+   
+   
+    const courses = await courseModel.find({ teacherId }).exec();
+    
+
+    // For each course, fetch teacher details separately
+    const coursesWithTeachers = await Promise.all(
+      courses.map(async (course) => {
+        // Fetch teacher by teacherId
+        const teacher = await teacherModel.findById(course.teacherId).exec();
+
+        // Attach teacher name to course data, or set as "Unknown Teacher"
+        const teacherName = teacher ? teacher.name : "Unknown Teacher";
+
+        // Return the course data along with the teacher's name
+        return {
+          ...course.toObject(), // Convert the Mongoose object to plain JS object
+          teacherName: teacherName, // Add the teacher's name
+        };
+      })
+    );
+
+    res.status(200).json(coursesWithTeachers); // Send courses with teacher names
+  } catch (error) {
+    console.error("Error fetching courses", error);
+    res.status(500).json({ message: "Error fetching courses" });
+  }
+});
+
+// this is for the api for the dropdown menu for the teacher videos dashboard page
+router.get("/courses/by-teacher/:teacherId", async (req, res) => {
+  const { teacherId } = req.params;
+
+  try {
+    const courses = await courseModel.find({ teacherId });
+    res.status(200).json(courses);
+  } catch (error) {
+    console.error("Error fetching courses for teacher:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+// End teacher specific methods
+
 module.exports = router;

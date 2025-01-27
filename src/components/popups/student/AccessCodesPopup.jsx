@@ -1,43 +1,57 @@
 'use client'
 
-import React, {useEffect , useState}from "react";
+import React, { useState } from "react";
 import axios from "axios";
-
-import { useCookies } from 'react-cookie';
-import { useRouter } from 'next/navigation';
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 
-export default function AccessCodesPopup({videoId, isOpen ,setIsModalOpen}) {
+export default function AccessCodesPopup({ videoId, isOpen, setIsModalOpen }) {
   const [accessCode, setAccessCode] = useState("");
-  const [cookies, setCookie,removeCookie] = useCookies(['jwt']);
+  const [cookies] = useCookies(["jwt"]);
   const token = cookies.jwt;
   const decodedJwt = jwtDecode(token);
-  const StudentId = decodedJwt.id;
+  const studentId = decodedJwt.id;
   const router = useRouter();
 
   const [errorMassage, setErrorMassage] = useState("");
 
   if (!isOpen) return null; // Don't render the modal if it's not open
 
-  const onClose = () =>{
-    setErrorMassage("")
-    setAccessCode("")
-    setIsModalOpen(false)
-  }
-  const onSubmit = (accessCode) => {
-    axios.post(`/api/AccessCode/validate`,{
-        videoId: videoId,
-        code: accessCode ,
-        studentId: StudentId
-    }) .then(function(response) {
-                
-         if (response.data.isValid) {
-            router.push(`/video/${videoId}`)   
-            }
-            }).catch(function(error) {
-                setErrorMassage("Access Code Denied")
-                console.log(error)
-            });
+  const onClose = () => {
+    setErrorMassage("");
+    setAccessCode("");
+    setIsModalOpen(false);
+  };
+
+  const onSubmit = async (accessCode) => {
+    try {
+      // Validate the access code
+      const validationResponse = await axios.post("/api/AccessCode/validate", {
+        videoId,
+        code: accessCode,
+        studentId,
+      });
+
+      if (validationResponse.data.isValid) {
+        // Enroll the student in the course
+        await axios.post("/api/enroll-student", {
+          studentId,
+          videosWatched: [
+            {
+              videoId,
+              watchedAt: new Date().toISOString(),
+            },
+          ],
+        });
+
+        // Redirect the user to the video page
+        router.push(`/video/${videoId}`);
+      }
+    } catch (error) {
+      setErrorMassage("Access Code Denied");
+      console.error("Error during access code validation or enrollment:", error);
+    }
   };
 
   return (
@@ -51,9 +65,9 @@ export default function AccessCodesPopup({videoId, isOpen ,setIsModalOpen}) {
           placeholder="Enter your access code"
           className="w-full p-2 border rounded-lg mb-4"
         />
-        {errorMassage? <h2 className="text-sm text-red-600 font-bold mt-2">{errorMassage}</h2>
-        :<></>
-        }
+        {errorMassage ? (
+          <h2 className="text-sm text-red-600 font-bold mt-2">{errorMassage}</h2>
+        ) : null}
         <div className="flex justify-end gap-4">
           <button
             onClick={onClose}

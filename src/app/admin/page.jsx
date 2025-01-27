@@ -7,6 +7,7 @@ import { useCookies } from 'react-cookie';
 import NavLayout from "@/components/navigation/adminNavigation/adminNavLayout";
 import LazyLoad from "@/components/loading/lazyLoading";
 import AdminUserDashboard from "@/components/dashbord/admins/adminUsersDashboard";
+import AdminAnalytics from "@/components/dashbord/admins/AdminAnalytics";
 export default function Dashboard() {
   
     const [cookies, setCookie,removeCookie] = useCookies(['jwt']);
@@ -15,7 +16,7 @@ export default function Dashboard() {
     const [authinticate, setAuthinticate] = useState(true);
   
   
-    /*useEffect(() => {
+    useEffect(() => {
   
   
       if (cookies.jwt) {
@@ -46,7 +47,7 @@ export default function Dashboard() {
             router.push("/admin/login")
           }
         
-     }, [])*/
+     }, [])
 
 
 

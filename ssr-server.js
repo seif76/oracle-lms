@@ -16,7 +16,7 @@ const accessCodesRouter = require("./src/controllers/accessCodes")
 const usersRouter =  require("./src/controllers/usersController")
 const authAdminRouter = require("./src/controllers/auth/authAdminController");
 const jwtAuth = require("./src/Middlewares/jwtAuth");
-
+const analyticsRouter = require("./src/controllers/analyticsController")
 const seedData = require('./src/lib/seeder');
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -84,7 +84,8 @@ app.prepare()
   server.use("/api/auth",jwtAuth) 
   server.use("/api",usersRouter)
   server.use("/api/auth/admin",authAdminRouter)
-  
+  server.use("/api",analyticsRouter)
+
   
   
   server.use("/api", teacherRouter)

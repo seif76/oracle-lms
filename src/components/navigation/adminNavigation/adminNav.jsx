@@ -9,6 +9,7 @@ import * as MdIcons from "react-icons/md";
 import { useRouter } from 'next/navigation';
 import { useCookies } from 'react-cookie';
 import EnrollmentByPhone from "@/components/Forms/userAnalysis"; // Modal component import
+import { BsGraphUp } from "react-icons/bs";
 
 export default function Navbar() {
   const [toggle, settoggle] = useState(true);
@@ -102,6 +103,15 @@ export default function Navbar() {
                 </div>
                 <span className="ml-3 mt-[5px] text-2xl sm:text-base">Student Enrollment</span>
               </button>
+            </li>
+
+            <li>
+              <Link href="/analytics" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <div className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                  <BsGraphUp size={25} />
+                </div>
+                <span className="ml-3 mt-[5px] text-2xl sm:text-base">Analytics</span>
+              </Link>
             </li>
 
             <li>

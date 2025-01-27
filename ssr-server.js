@@ -15,6 +15,9 @@ const enrollmentRouter = require("./src/controllers/enrollmentController")
 const accessCodesRouter = require("./src/controllers/accessCodes")
 const usersRouter =  require("./src/controllers/usersController")
 const authAdminRouter = require("./src/controllers/auth/authAdminController");
+const authTeacherRouter = require("./src/controllers/auth/authTeacherController");
+const jwtTeacherAuth = require("./src/Middlewares/jwtTeacherAuth");
+
 const jwtAuth = require("./src/Middlewares/jwtAuth");
 
 const seedData = require('./src/lib/seeder');
@@ -84,6 +87,9 @@ app.prepare()
   server.use("/api/auth",jwtAuth) 
   server.use("/api",usersRouter)
   server.use("/api/auth/admin",authAdminRouter)
+  //teachers admin
+  server.use("/api/authTeacher",jwtTeacherAuth) // jwt middleware
+  server.use("/api/authTeacher/teacher",authTeacherRouter)
   
   
   

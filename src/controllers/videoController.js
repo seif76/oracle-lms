@@ -261,5 +261,57 @@ router.delete("/videos/deleteVideoById/:id", async (req, res) => {
   }
 });
 
+// start for teacher dashboard
+
+// get videos for a specific teacher Id 
+router.get("/videos/videos-by-teacher/:teacherId", async (req, res) => {
+  const { teacherId } = req.params; // Get the teacher ID from the route parameter
+
+  try {
+    await connectToDataBase(); // Ensure database connection
+
+    // Find courses assigned to the teacher
+    const courses = await CourseModel.find({ teacherId }).exec();
+
+    if (!courses || courses.length === 0) {
+      return res.status(404).json({ message: "No courses found for this teacher." });
+    }
+
+    // Extract course IDs
+    const courseIds = courses.map((course) => course._id);
+
+    // Find videos assigned to these courses
+    const videos = await videoModel
+      .find({ courseId: { $in: courseIds } }) // Match videos with course IDs
+      .populate("courseId", "title") // Populate the course title
+      .exec();
+
+    // Transform response to include Base64-encoded images and course details
+    const transformedVideos = videos.map((video) => {
+      const imageExists = video.image && video.image.data && video.image.contentType;
+      return {
+        _id: video._id,
+        title: video.title,
+        description: video.description,
+        courseId: video.courseId?._id || null, // Include course ID
+        courseName: video.courseId?.title || "Unknown Course", // Course name from `populate`
+        youtubeLink: video.youtubeLink,
+        createdAt: video.createdAt,
+        image: imageExists
+          ? `data:${video.image.contentType};base64,${video.image.data.toString("base64")}`
+          : null, // If no image, send null
+      };
+    });
+
+    res.status(200).json(transformedVideos);
+  } catch (error) {
+    console.error("Error fetching videos:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// End for teacher dashboard
+
+
 
 module.exports = router;

@@ -218,6 +218,20 @@ router.get("/courses/getCourses/:teacherId", async (req, res) => {
   }
 });
 
+// this is for the api for the dropdown menu for the teacher videos dashboard page
+router.get("/courses/by-teacher/:teacherId", async (req, res) => {
+  const { teacherId } = req.params;
+
+  try {
+    const courses = await courseModel.find({ teacherId });
+    res.status(200).json(courses);
+  } catch (error) {
+    console.error("Error fetching courses for teacher:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
 // End teacher specific methods
 
 module.exports = router;

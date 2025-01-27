@@ -4,7 +4,6 @@ import axios from "axios";
 import { useRouter } from 'next/navigation'
 import { useCookies } from 'react-cookie';
 
-import NavLayout from "@/components/navigation/adminNavigation/adminNavLayout";
 import LazyLoad from "@/components/loading/lazyLoading";
 import TeacherCoursesDashboard from "@/components/dashbord/teachers/TeacherCoursesDashboard";
 import TeacherNavLayout from "@/components/navigation/teacherNavigation/teacherNavLayout";

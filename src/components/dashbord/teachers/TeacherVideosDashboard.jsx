@@ -6,6 +6,8 @@ import AdminEditvideo from "@/components/popups/admin/AdminEditvideo";
 
 import { useCookies } from 'react-cookie';
 import { jwtDecode } from "jwt-decode";
+import TeacherEditVideo from "@/components/popups/teacher/teacherEditVideo";
+import TeacherVideoCreation from "@/components/Forms/teachers/teacherVideoCreation";
 
 
 const TeacherVideosDashboard = () => {
@@ -19,6 +21,12 @@ const TeacherVideosDashboard = () => {
 
   const [cookies, setCookie,removeCookie] = useCookies(['jwt']);
   const token = cookies.jwt;
+  let teacherId = "";
+  if(token){
+    const decodedJwt = jwtDecode(token);
+    teacherId = decodedJwt.id;
+  }
+  
 
   const fetchvideos = async () => {
     try {
@@ -164,7 +172,8 @@ const TeacherVideosDashboard = () => {
           
         </button>
         </div>
-            <VideoCreationForm
+            <TeacherVideoCreation
+              teacherId={teacherId}
               onClose={() => setAddModalOpen(false)}
               onVideoCreated={handlevideoCreated}
             />
@@ -173,7 +182,8 @@ const TeacherVideosDashboard = () => {
       )}
 
       {/* Modal for Edit video */}
-      <AdminEditvideo
+      <TeacherEditVideo
+        teacherId={teacherId}
         show={isEditModalOpen}
         handleClose={() => setEditModalOpen(false)}
         videoData={selectedvideo}

@@ -19,7 +19,7 @@ const authTeacherRouter = require("./src/controllers/auth/authTeacherController"
 const jwtTeacherAuth = require("./src/Middlewares/jwtTeacherAuth");
 
 const jwtAuth = require("./src/Middlewares/jwtAuth");
-
+const analyticsRouter = require("./src/controllers/analyticsController")
 const seedData = require('./src/lib/seeder');
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -90,7 +90,8 @@ app.prepare()
   //teachers admin
   server.use("/api/authTeacher",jwtTeacherAuth) // jwt middleware
   server.use("/api/authTeacher/teacher",authTeacherRouter)
-  
+  server.use("/api",analyticsRouter)
+
   
   
   server.use("/api", teacherRouter)

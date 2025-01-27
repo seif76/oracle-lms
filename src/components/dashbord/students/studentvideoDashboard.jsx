@@ -98,6 +98,7 @@ export default function video({searchquery}) {
              imageUrl={"/testlms.PNG"}
              duration={"course.duration"}
             />
+            
           ))}
        </div>
 
